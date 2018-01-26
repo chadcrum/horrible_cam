@@ -1,0 +1,33 @@
+<html>
+<script>
+<script type="text/javascript">  
+
+    function replaceSrc()
+    {
+
+        var images = document.getElementsByTagName('img');
+
+        for(var i = 0; i < images.length; i++)
+        {
+            var dt = new Date();
+            var img = images[i];
+
+            if(img.src.length >= 0 & img.id != 'idImageNoTimestamp')
+            {
+                img.src = img.src + "?" + dt.getTime();
+                //javascript:alert(document.lastModified);
+            }
+        }
+    }
+    replaceSrc();
+</script>
+
+<body onload="updateImage();">
+<img id="img" src="images/backyard_fence.jpg" style="position:relative;top:0;left:0;height:50%;width:50%"/>
+<img id="img" src="images/backyard_porch.jpg" style="position:relative;top:0;left:0;height:50%;width:50%"/>
+<img id="img" src="images/drive_way.jpg" style="position:relative;top:0;left:0;height:50%;width:50%"/>
+<img id="img" src="images/dining_room.jpg" style="position:relative;top:0;left:0;height:50%;width:50%"/>
+<img id="img" src="images/kitchen.jpg" style="position:relative;top:0;left:0;height:50%;width:50%"/>
+<img id="img" src="images/living_room.jpg" style="position:relative;top:0;left:0;height:50%;width:50%"/>
+</body>
+</html>
