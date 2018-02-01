@@ -1,0 +1,21 @@
+# Start in daemon (background) mode and release terminal (default: off)
+daemon on
+# Output 'normal' pictures when motion is detected (default: on)
+output_normal off
+# File to store the process ID, also called pid file. (default: not defined)
+process_id_file /var/run/motion/motion.pid 
+# Image width (pixels). Valid range: Camera dependent, default: 352
+#width 640
+# Image height (pixels). Valid range: Camera dependent, default: 288
+#height 480
+# Maximum number of frames to be captured per second.
+# Valid range: 2-100. Default: 100 (almost no limit).
+framerate 7
+# URL to use if you are using a network camera, size will be autodetected (incl http:// ftp:// or file:///)
+# Must be a URL that returns single jpeg pictures or a raw mjpeg stream. Default: Not defined
+netcam_url value http://192.168.1.69:8090/dining_room.mjpg
+# Target base directory for pictures and films
+# Recommended to use absolute path. (Default: current working directory)
+target_dir /tmp/vids
+# Codec to used by ffmpeg for the video compression.
+ffmpeg_video_codec mpeg4
