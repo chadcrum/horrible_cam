@@ -1,5 +1,9 @@
+*.swp
 *.avi
 *.mkv
 *.png
 *.jpg
 *.webm
+*.key
+*.crt
+*.htaccess

@@ -1,0 +1,7 @@
+dining_room
+living_room
+kitchen
+drive_way
+backyard_porch
+backyard_fence
+

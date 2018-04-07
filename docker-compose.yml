@@ -1,0 +1,48 @@
+version: '3'
+services:
+  ffserver:
+    image: jrottenberg/ffmpeg:latest
+    entrypoint: ffserver -f /var/tmp/ffserver.conf
+    volumes:
+        - ./ffserver.conf:/var/tmp/ffserver.conf
+        - /opt/ffserver_ffm:/opt/ffserver_ffm
+    ports:
+        - 8090:8090
+    restart: always
+
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/server.key:/etc/nginx/server.key
+      - ./nginx/server.crt:/etc/nginx/server.crt
+      - ./nginx/.htpasswd:/etc/nginx/.htpasswd
+      - ./html:/var/www
+    ports:
+      - 55555:443
+
+  # Direct Camera Feeds
+  drive_way:
+    image: jrottenberg/ffmpeg:latest
+    entrypoint: ffmpeg -i rtsp://192.168.1.10:554/s0 -vcodec copy -acodec copy http://buttstuff:8090/drive_way.ffm
+    restart: always
+  backyard_porch:
+    image: jrottenberg/ffmpeg:latest
+    entrypoint: ffmpeg -rtsp_transport tcp -i rtsp://admin:yourmom%21@192.168.1.15:554/videoMain  -vcodec copy -acodec copy  http://buttstuff:8090/backyard_porch.ffm
+    restart: always
+  backyard_fence:
+    image: jrottenberg/ffmpeg:latest
+    entrypoint: ffmpeg -rtsp_transport tcp -i rtsp://admin:yourmom%21@192.168.1.14:554/videoMain  -vcodec copy -acodec copy http://buttstuff:8090/backyard_fence.ffm
+    restart: always
+  living_room:
+    image: jrottenberg/ffmpeg:latest
+    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.12:554/live/av0?user=admin&passwd=pylecam"  -vcodec copy -acodec copy http://buttstuff:8090/living_room.ffm
+    restart: always
+  dining_room:
+    image: jrottenberg/ffmpeg:latest
+    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.13:554/live/av0?user=admin&passwd=pylecam"  -vcodec copy -acodec copy http://buttstuff:8090/dining_room.ffm
+    restart: always
+  kitchen:
+    image: jrottenberg/ffmpeg:latest
+    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.11:554/live/av0?user=admin&passwd=pylecam" -vcodec copy -acodec copy http://buttstuff:8090/kitchen.ffm
+    restart: always
