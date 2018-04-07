@@ -6,4 +6,4 @@
 *.webm
 *.key
 *.crt
-*.htaccess
+*.htpasswd
