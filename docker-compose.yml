@@ -20,6 +20,7 @@ services:
       - ./html:/var/www
     ports:
       - 55555:443
+    restart: always
 
   # Direct Camera Feeds
   drive_way:
@@ -46,3 +47,18 @@ services:
     image: jrottenberg/ffmpeg:latest
     entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.11:554/live/av0?user=admin&passwd=pylecam" -vcodec copy -acodec copy http://buttstuff:8090/kitchen.ffm
     restart: always
+  garage:
+    image: jrottenberg/ffmpeg:latest
+    entrypoint: ffmpeg -rtsp_transport tcp -i rtsp://admin:yourmom%21@192.168.1.17:554/videoMain  -vcodec copy -acodec copy  http://buttstuff:8090/garage.ffm
+    restart: always
+
+
+  # Recorded Feeds
+  #drive_way_rec:
+  #  image: jrottenberg/ffmpeg:latest
+  #  entrypoint: ffmpeg -i https://camera:winston@cams.boob.support:55444/drive_way.webm -filter_complex "drawtext=fontfile=/usr/share/fonts/truetype/freefont/FreeSerif.ttf: text='%{localtime}': x=50: y=1: fontsize=10: fontcolor=yellow@0.8:" -vcodec libvpx -acodec copy -f segment -strftime 1 -segment_time 14400 -segment_format webm /dicks/cam-%d_%m_%Y-%H_%M_%S.webm
+  #  volumes:
+  #      - /opt/horrible_cam/html/video/drive_way/:/dicks
+  #  #restart: always
+
+
