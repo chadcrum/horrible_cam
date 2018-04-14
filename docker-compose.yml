@@ -54,11 +54,16 @@ services:
 
 
   # Recorded Feeds
-  #drive_way_rec:
-  #  image: jrottenberg/ffmpeg:latest
-  #  entrypoint: ffmpeg -i https://camera:winston@cams.boob.support:55444/drive_way.webm -filter_complex "drawtext=fontfile=/usr/share/fonts/truetype/freefont/FreeSerif.ttf: text='%{localtime}': x=50: y=1: fontsize=10: fontcolor=yellow@0.8:" -vcodec libvpx -acodec copy -f segment -strftime 1 -segment_time 14400 -segment_format webm /dicks/cam-%d_%m_%Y-%H_%M_%S.webm
-  #  volumes:
-  #      - /opt/horrible_cam/html/video/drive_way/:/dicks
-  #  #restart: always
+  drive_way_rec:
+    image: jrottenberg/ffmpeg:latest
+    #entrypoint: ffmpeg -i https://camera:winston@cams.boob.support:55444/drive_way.webm -filter_complex "drawtext=fontfile=/usr/share/fonts/truetype/freefont/FreeSerif.ttf: text='%{localtime}': x=50: y=1: fontsize=10: fontcolor=yellow@0.8:" -vcodec libvpx -acodec copy -f segment -strftime 1 -segment_time 14400 -segment_format webm /dicks/cam-%d_%m_%Y-%H_%M_%S.webm
+    entrypoint: ffmpeg -i https://camera:winston@cams.boob.support:55555/drive_way.webm  -vcodec libvpx -acodec copy -f segment -strftime 1 -segment_time 14400 -segment_format webm /dicks/cam-%d_%m_%Y-%H_%M_%S.webm
+    volumes:
+        - /opt/horrible_cam/html/video/drive_way/:/dicks
+    #restart: always
+
+  motion:
+    image: ubuntu:16.04
+    entrypoint: /bin/bash
 
 
