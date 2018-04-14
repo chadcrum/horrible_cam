@@ -61,43 +61,39 @@ services:
   drive_way_rec:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
-        ffmpeg -i https://camera:winston@cams.boob.support:55555/drive_way.webm  -filter_complex "drawtext=fontfile=/var/tmp//FreeSerif.ttf: text='%{localtime}': x=200: y=1: fontsize=14: fontcolor=yellow@0.8:" -vcodec libvpx -acodec copy -f segment -strftime 1 -segment_time 3600 -segment_format webm /dicks/cam-%d_%m_%Y-%H_%M_%S.webm
+        ffmpeg -i https://camera:winston@cams.boob.support:55555/drive_way.mjpg  -vcodec libx264  -f segment -strftime 1 -segment_time 3600 -segment_format mp4 /dicks/cam-%d_%m_%Y-%H_%M_%S.mp4
     volumes:
         - /opt/horrible_cam/html/video/drive_way/:/dicks
-        - ./FreeSerif.ttf:/var/tmp/FreeSerif.ttf
     restart: always
 
   backyard_porch_rec:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
-        ffmpeg -i https://camera:winston@cams.boob.support:55555/backyard_porch.webm  -filter_complex "drawtext=fontfile=/var/tmp//FreeSerif.ttf: text='%{localtime}': x=200: y=1: fontsize=14: fontcolor=yellow@0.8:" -vcodec libvpx -acodec copy -f segment -strftime 1 -segment_time 3600 -segment_format webm /dicks/cam-%d_%m_%Y-%H_%M_%S.webm
+        ffmpeg -i https://camera:winston@cams.boob.support:55555/backyard_porch.mjpg  -vcodec libx264  -f segment -strftime 1 -segment_time 3600 -segment_format mp4 /dicks/cam-%d_%m_%Y-%H_%M_%S.mp4
     volumes:
         - /opt/horrible_cam/html/video/backyard_porch/:/dicks
-        - ./FreeSerif.ttf:/var/tmp/FreeSerif.ttf
     restart: always
 
   backyard_fence_rec:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
-        ffmpeg -i https://camera:winston@cams.boob.support:55555/backyard_fence.webm  -filter_complex "drawtext=fontfile=/var/tmp//FreeSerif.ttf: text='%{localtime}': x=200: y=1: fontsize=14: fontcolor=yellow@0.8:" -vcodec libvpx -acodec copy -f segment -strftime 1 -segment_time 3600 -segment_format webm /dicks/cam-%d_%m_%Y-%H_%M_%S.webm
+        ffmpeg -i https://camera:winston@cams.boob.support:55555/backyard_fence.mjpg  -vcodec libx264  -f segment -strftime 1 -segment_time 3600 -segment_format mp4 /dicks/cam-%d_%m_%Y-%H_%M_%S.mp4
     volumes:
         - /opt/horrible_cam/html/video/backyard_fence/:/dicks
-        - ./FreeSerif.ttf:/var/tmp/FreeSerif.ttf
     restart: always
 
   garage_rec:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
-        ffmpeg -i https://camera:winston@cams.boob.support:55555/garage.webm  -filter_complex "drawtext=fontfile=/var/tmp//FreeSerif.ttf: text='%{localtime}': x=200: y=1: fontsize=14: fontcolor=yellow@0.8:" -vcodec libvpx -acodec copy -f segment -strftime 1 -segment_time 3600 -segment_format webm /dicks/cam-%d_%m_%Y-%H_%M_%S.webm
+        ffmpeg -i https://camera:winston@cams.boob.support:55555/garage.mjpg  -vcodec libx264  -f segment -strftime 1 -segment_time 3600 -segment_format mp4 /dicks/cam-%d_%m_%Y-%H_%M_%S.mp4
     volumes:
         - /opt/horrible_cam/html/video/garage/:/dicks
-        - ./FreeSerif.ttf:/var/tmp/FreeSerif.ttf
     restart: always
 
   frontyard_rec:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
-        ffmpeg -i https://camera:winston@cams.boob.support:55555/frontyard.webm  -filter_complex "drawtext=fontfile=/var/tmp//FreeSerif.ttf: text='%{localtime}': x=200: y=1: fontsize=14: fontcolor=yellow@0.8:" -vcodec libvpx -acodec copy -f segment -strftime 1 -segment_time 3600 -segment_format webm /dicks/cam-%d_%m_%Y-%H_%M_%S.webm
+        ffmpeg -i https://camera:winston@cams.boob.support:55555/frontyard.mjpg  -vcodec libx264  -f segment -strftime 1 -segment_time 3600 -segment_format mp4 /dicks/cam-%d_%m_%Y-%H_%M_%S.mp4
     volumes:
         - /opt/horrible_cam/html/video/frontyard/:/dicks
         - ./FreeSerif.ttf:/var/tmp/FreeSerif.ttf
