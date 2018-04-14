@@ -57,7 +57,7 @@ services:
   drive_way_rec:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
-        ffmpeg -i https://camera:winston@cams.boob.support:55555/drive_way.webm  -filter_complex "drawtext=fontfile=/var/tmp//FreeSerif.ttf: text='%{localtime}': x=1: y=1: fontsize=10: fontcolor=yellow@0.8:" -vcodec libx264 -acodec copy -f segment -strftime 1 -segment_time 14400 -segment_format webm /dicks/cam-%d_%m_%Y-%H_%M_%S.mp4
+        ffmpeg -i https://camera:winston@cams.boob.support:55555/drive_way.webm  -filter_complex "drawtext=fontfile=/var/tmp//FreeSerif.ttf: text='%{localtime}': x=75: y=1: fontsize=8: fontcolor=yellow@0.8:" -vcodec libvpx -acodec copy -f segment -strftime 1 -segment_time 14400 -segment_format webm /dicks/cam-%d_%m_%Y-%H_%M_%S.webm
     volumes:
         - /opt/horrible_cam/html/video/drive_way/:/dicks
         - ./FreeSerif.ttf:/var/tmp/FreeSerif.ttf
