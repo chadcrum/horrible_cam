@@ -27,6 +27,10 @@ services:
     image: jrottenberg/ffmpeg:latest
     entrypoint: ffmpeg -i rtsp://192.168.1.10:554/s0 -vcodec copy -acodec copy http://camtop:8090/drive_way.ffm
     restart: always
+  frontyard:
+    image: jrottenberg/ffmpeg:latest
+    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.16/stream1" -vcodec copy -acodec copy http://camtop:8090/frontyard.ffm
+    restart: always
   backyard_porch:
     image: jrottenberg/ffmpeg:latest
     entrypoint: ffmpeg -rtsp_transport tcp -i rtsp://admin:yourmom%21@192.168.1.15:554/videoMain  -vcodec copy -acodec copy  http://camtop:8090/backyard_porch.ffm
@@ -87,5 +91,14 @@ services:
         ffmpeg -i https://camera:winston@cams.boob.support:55555/garage.webm  -filter_complex "drawtext=fontfile=/var/tmp//FreeSerif.ttf: text='%{localtime}': x=200: y=1: fontsize=14: fontcolor=yellow@0.8:" -vcodec libvpx -acodec copy -f segment -strftime 1 -segment_time 3600 -segment_format webm /dicks/cam-%d_%m_%Y-%H_%M_%S.webm
     volumes:
         - /opt/horrible_cam/html/video/garage/:/dicks
+        - ./FreeSerif.ttf:/var/tmp/FreeSerif.ttf
+    restart: always
+
+  frontyard_rec:
+    image: jrottenberg/ffmpeg:latest
+    entrypoint: |
+        ffmpeg -i https://camera:winston@cams.boob.support:55555/frontyard.webm  -filter_complex "drawtext=fontfile=/var/tmp//FreeSerif.ttf: text='%{localtime}': x=200: y=1: fontsize=14: fontcolor=yellow@0.8:" -vcodec libvpx -acodec copy -f segment -strftime 1 -segment_time 3600 -segment_format webm /dicks/cam-%d_%m_%Y-%H_%M_%S.webm
+    volumes:
+        - /opt/horrible_cam/html/video/frontyard/:/dicks
         - ./FreeSerif.ttf:/var/tmp/FreeSerif.ttf
     restart: always
