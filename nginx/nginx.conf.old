@@ -1,0 +1,32 @@
+upstream ffserver {
+    server 192.168.1.69:8090;
+}
+ 
+server {
+    listen 80;
+    listen 443 ssl;
+    server_name boob.support cams.boob.support;
+ 
+    ssl off;
+    ssl_certificate     /etc/nginx/server.crt;
+    ssl_certificate_key /etc/nginx/server.key;
+ 
+    #root /var/www;
+
+    # Add index.php to the list if you are using PHP
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        root /var/www;
+
+        # First attempt to serve request as file, then
+        # as directory, then fall back to displaying a 404.
+        try_files $uri $uri/ =404;
+
+        # Auth
+        autoindex on;
+
+        expires off;
+    }
+
+}

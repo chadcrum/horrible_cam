@@ -1,0 +1,27 @@
+<html></html>
+<head></head>
+<body>
+<video id="live-video" poster="nuts" controls />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.4.1/dash.all.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function (event) {
+    var video_element = document.getElementById('#live-video');
+
+    if (window.MediaSource) {
+        // For good web browsers, use dash.js
+
+        player = dashjs.MediaPlayer().create();
+        player.initialize(video_element, null, true);                    
+        player.setFastSwitchEnabled(true);
+
+        player.attachSource("http://192.168.1.69/dash/chad.mpd");
+    } else {
+        // For Safari on iOS, use HLS
+
+        video_element.src = "http://192.168.1.69/dash/chad.mpd";
+    }
+});
+</script>
+</body>

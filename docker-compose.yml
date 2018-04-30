@@ -1,100 +1,21 @@
 version: '3'
 services:
-  ffserver:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: ffserver -f /var/tmp/ffserver.conf
-    volumes:
-        - ./ffserver.conf:/var/tmp/ffserver.conf
-        - /opt/ffserver_ffm:/opt/ffserver_ffm
-    ports:
-        - 8090:8090
-    restart: always
-
   nginx:
-    image: nginx
+    image: tiangolo/nginx-rtmp
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/server.key:/etc/nginx/server.key
       - ./nginx/server.crt:/etc/nginx/server.crt
       - ./nginx/.htpasswd:/etc/nginx/.htpasswd
       - ./html:/var/www
     ports:
-      - 55555:443
+      - 80:80
+      - 1935:1935
     restart: always
 
   # Direct Camera Feeds
   drive_way:
     image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -i rtsp://192.168.1.10:554/s0 -vcodec copy -acodec copy http://camtop:8090/drive_way.ffm
-    restart: always
-  frontyard:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.16/stream1" -vcodec copy -acodec copy http://camtop:8090/frontyard.ffm
-    restart: always
-  backyard_porch:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -rtsp_transport tcp -i rtsp://admin:yourmom%21@192.168.1.15:554/videoMain  -vcodec copy -acodec copy  http://camtop:8090/backyard_porch.ffm
-    restart: always
-  backyard_fence:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -rtsp_transport tcp -i rtsp://admin:yourmom%21@192.168.1.14:554/videoMain  -vcodec copy -acodec copy http://camtop:8090/backyard_fence.ffm
-    restart: always
-  living_room:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.12:554/live/av0?user=admin&passwd=pylecam"  -vcodec copy -acodec copy http://camtop:8090/living_room.ffm
-    restart: always
-  dining_room:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.13:554/live/av0?user=admin&passwd=pylecam"  -vcodec copy -acodec copy http://camtop:8090/dining_room.ffm
-    restart: always
-  kitchen:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.11:554/live/av0?user=admin&passwd=pylecam" -vcodec copy -acodec copy http://camtop:8090/kitchen.ffm
-    restart: always
-  garage:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://admin:yourmom%21@192.168.1.17:554/videoMain" -vcodec copy -acodec copy http://camtop:8090/garage.ffm
-    restart: always
-
-
-  # Recorded Feeds
-  drive_way_rec:
-    image: jrottenberg/ffmpeg:latest
     entrypoint: |
-        ffmpeg -i https://camera:winston@cams.boob.support:55555/drive_way.mjpg  -vcodec libx264  -f segment -strftime 1 -segment_time 3600 -segment_format mp4 /dicks/cam-%d_%m_%Y-%H_%M_%S.mp4
-    volumes:
-        - /opt/horrible_cam/html/video/drive_way/:/dicks
-    restart: always
-
-  backyard_porch_rec:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: |
-        ffmpeg -i https://camera:winston@cams.boob.support:55555/backyard_porch.mjpg  -vcodec libx264  -f segment -strftime 1 -segment_time 3600 -segment_format mp4 /dicks/cam-%d_%m_%Y-%H_%M_%S.mp4
-    volumes:
-        - /opt/horrible_cam/html/video/backyard_porch/:/dicks
-    restart: always
-
-  backyard_fence_rec:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: |
-        ffmpeg -i https://camera:winston@cams.boob.support:55555/backyard_fence.mjpg  -vcodec libx264  -f segment -strftime 1 -segment_time 3600 -segment_format mp4 /dicks/cam-%d_%m_%Y-%H_%M_%S.mp4
-    volumes:
-        - /opt/horrible_cam/html/video/backyard_fence/:/dicks
-    restart: always
-
-  garage_rec:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: |
-        ffmpeg -i https://camera:winston@cams.boob.support:55555/garage.mjpg  -vcodec libx264  -f segment -strftime 1 -segment_time 3600 -segment_format mp4 /dicks/cam-%d_%m_%Y-%H_%M_%S.mp4
-    volumes:
-        - /opt/horrible_cam/html/video/garage/:/dicks
-    restart: always
-
-  frontyard_rec:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: |
-        ffmpeg -i https://camera:winston@cams.boob.support:55555/frontyard.mjpg  -vcodec libx264  -f segment -strftime 1 -segment_time 3600 -segment_format mp4 /dicks/cam-%d_%m_%Y-%H_%M_%S.mp4
-    volumes:
-        - /opt/horrible_cam/html/video/frontyard/:/dicks
-        - ./FreeSerif.ttf:/var/tmp/FreeSerif.ttf
+        ffmpeg  -i rtsp://192.168.1.10:554/s0 -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/driveway
     restart: always
