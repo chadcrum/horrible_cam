@@ -10,6 +10,10 @@ services:
       - ./html:/var/www
       # NGINX stores the tmp video files here
       - /opt/videos:/videos
+      - /opt/recordings:/recordings
+    environment:
+      - SET_CONTAINER_TIMEZONE=true
+      - CONTAINER_TIMEZONE=US/Chicago
     ports:
       - 55555:443
       - 1935:1935
