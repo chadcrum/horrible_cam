@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+<style>
+    video {
+        width: 640px;
+        height: 480px;
+    }
+</style>
+<body>
+    <div>
+        <video data-dashjs-player autoplay controls src="dash/driveway/index.mpd" type="application/dash+xml"></video>
+    </div>
+    <div>
+        <video data-dashjs-player autoplay controls src="dash/frontyard/index.mpd" type="application/dash+xml"></video>
+    </div>
+    <div>
+        <video data-dashjs-player autoplay controls src="dash/backyard_porch/index.mpd" type="application/dash+xml"></video>
+    </div>
+    <div>
+        <video data-dashjs-player autoplay controls src="dash/backyard_fence/index.mpd" type="application/dash+xml"></video>
+    </div>
+</body>
+
+</html>
