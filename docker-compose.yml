@@ -8,6 +8,8 @@ services:
       - ./nginx/server.crt:/etc/nginx/server.crt
       - ./nginx/.htpasswd:/etc/nginx/.htpasswd
       - ./html:/var/www
+      # NGINX stores the tmp video files here
+      - /opt/videos:/videos
     ports:
       - 55555:443
       - 1935:1935
