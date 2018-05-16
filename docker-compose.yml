@@ -18,56 +18,56 @@ services:
     ports:
       - 55555:443
       - 1935:1935
-    restart: always
+    restart: unless-stopped
 
   # Direct Camera Feeds
   drive_way:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
         ffmpeg  -i rtsp://192.168.1.10:554/s0 -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/driveway
-    restart: always
+    restart: unless-stopped
 
   frontyard:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
         ffmpeg  -i rtsp://192.168.1.16/stream1 -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/frontyard
-    restart: always
+    restart: unless-stopped
 
   backyard_porch:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
         ffmpeg  -i rtsp://admin:yourmom%21@192.168.1.15:554/videoMain -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/backyard_porch
-    restart: always
+    restart: unless-stopped
 
   backyard_fence:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
         ffmpeg  -i rtsp://admin:yourmom%21@192.168.1.14:554/videoMain -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/backyard_fence
-    restart: always
+    restart: unless-stopped
 
   living_room:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
         ffmpeg  -i rtsp://192.168.1.12:554/live/av0?user=admin&passwd=pylecam -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/living_room
-    restart: always
+    restart: unless-stopped
 
   dining_room:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
         ffmpeg  -i rtsp://192.168.1.13:554/live/av0?user=admin&passwd=pylecam -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/dining_room
-    restart: always
+    restart: unless-stopped
 
   kitchen:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
         ffmpeg  -i rtsp://192.168.1.11:554/live/av0?user=admin&passwd=pylecam -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/kitchen
-    restart: always
+    restart: unless-stopped
 
   garage:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
         ffmpeg  -i rtsp://admin:yourmom%21@192.168.1.17:554/videoMain -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/garage
-    restart: always
+    restart: unless-stopped
 
   motion:
     build: motion_conf/
@@ -79,4 +79,28 @@ services:
       - SET_CONTAINER_TIMEZONE=true
       - CONTAINER_TIMEZONE=US/Chicago
       - TZ=America/Chicago
-    restart: always
+    restart: unless-stopped
+
+  plex:
+    container_name: plex
+    image: plexinc/pms-docker
+    restart: unless-stopped
+    ports:
+      - 32400:32400/tcp
+      - 3005:3005/tcp
+      - 8324:8324/tcp
+      - 32469:32469/tcp
+      - 1900:1900/udp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+    environment:
+      - TZ=America/Chicago
+      - PLEX_CLAIM=CLAIM-SHDQOMRINNT1QQ5RHEOL
+      - ADVERTISE_IP=http://19.168.1.69:32400/
+    hostname: camtop.boob.support
+    volumes:
+      - /opt/plex-data/config:/config
+      - /opt/plex-data/transcode:/transcode
+      - /opt/recordings:/data
