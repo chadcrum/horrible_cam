@@ -70,7 +70,7 @@ services:
     restart: always
 
   motion:
-    build: motion/
+    build: motion_conf/
     volumes: 
       - /opt/recordings:/recordings
       - ./motion_conf/motion.conf:/etc/motion/motion.conf
