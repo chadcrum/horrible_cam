@@ -26,13 +26,9 @@ app = Flask(__name__)
 @app.route("/", methods=['GET'])
 def index():
     base_url = os.environ['BASE_URL']
-    test_url = base_url + 'backyard_fence/'
-    bla = sort_json_files(test_url)
-    logger.debug(bla)
-    crap = '<html><head></head><body>'
-    for i in bla:
-        crap += '<video width="320" height="240" controls> <source src="' + test_url + i['name'] + '" type="video/mp4"></video><br>'
-        
+    crap = '<html><head></head><body><h2>Recordings</h2>' 
+    for i in get_file_list(base_url):
+        crap += '<a href="/videos/' + i["name"] + '">' + i["name"] + '</a></br>'
     return crap
 
 @app.route("/videos/<video_dir>", methods=['GET'])
@@ -41,7 +37,7 @@ def list_videos(video_dir):
     video_url = os.environ['BASE_URL'] + video_dir + '/'
     bla = sort_json_files(video_url)
     logger.debug(bla)
-    crap = '<html><head></head><body>'
+    crap = '<html><head></head><body><h2>' + video_dir + '</h2>'
     for i in bla:
         tmp_date = i['mtime_dt'] - timedelta(hours=int(os.environ['TIME_OFFSET']))
         crap += '<h3>' + tmp_date.strftime('%b %d, %Y - %H:%M:%S') + ' - ' + str(humanfriendly.format_size(i['size'])) + '</h3>'
