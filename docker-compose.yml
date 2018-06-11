@@ -88,3 +88,6 @@ services:
       - /opt/recordings:/recordings
     ports:
       - 81:80
+    environment:
+      - BASE_URL=http://192.168.1.69/recordings/
+      - TIME_OFFSET=5
