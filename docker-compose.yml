@@ -91,3 +91,4 @@ services:
     environment:
       - BASE_URL=http://192.168.1.69/recordings/
       - TIME_OFFSET=5
+    restart: unless-stopped
