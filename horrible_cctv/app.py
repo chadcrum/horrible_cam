@@ -37,7 +37,7 @@ def list_videos(video_dir):
     video_url = os.environ['BASE_URL'] + video_dir + '/'
     bla = sort_json_files(video_url)
     logger.debug(bla)
-    crap = '<html><head></head><body><h2>' + video_dir + '</h2>'
+    crap = '<html><head></head><body><h3>' + video_dir + '</h3>'
     for i in bla:
         tmp_date = i['mtime_dt'] - timedelta(hours=int(os.environ['TIME_OFFSET']))
         crap += '<h3>' + tmp_date.strftime('%b %d, %Y - %H:%M:%S') + ' - ' + str(humanfriendly.format_size(i['size'])) + '</h3>'
