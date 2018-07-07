@@ -69,17 +69,17 @@ services:
         ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://admin:yourmom%21@192.168.1.17:554/videoMain -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/garage
     restart: unless-stopped
 
-  motion:
-    build: motion_conf/
-    volumes: 
-      - /opt/recordings:/recordings
-      - ./motion_conf/motion.conf:/etc/motion/motion.conf
-      - ./motion_conf/cam_conf:/etc/motion/conf.d
-    environment:
-      - SET_CONTAINER_TIMEZONE=true
-      - CONTAINER_TIMEZONE=America/Chicago
-      - TZ=America/Chicago
-    restart: unless-stopped
+  #motion:
+  #  build: motion_conf/
+  #  volumes: 
+  #    - /opt/recordings:/recordings
+  #    - ./motion_conf/motion.conf:/etc/motion/motion.conf
+  #    - ./motion_conf/cam_conf:/etc/motion/conf.d
+  #  environment:
+  #    - SET_CONTAINER_TIMEZONE=true
+  #    - CONTAINER_TIMEZONE=America/Chicago
+  #    - TZ=America/Chicago
+  #  restart: unless-stopped
 
   cctv:
     build: horrible_cctv/
