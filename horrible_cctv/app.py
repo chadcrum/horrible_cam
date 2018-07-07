@@ -32,16 +32,19 @@ def index():
     return crap
 
 @app.route("/videos/<video_dir>", methods=['GET'])
-def list_videos(video_dir):
+@app.route("/videos/<video_dir>/<page>", methods=['GET'])
+def list_videos(video_dir, page=0):
+    page_offset = 10
     time_offset = os.environ['TIME_OFFSET']
     video_url = os.environ['BASE_URL'] + video_dir + '/'
     bla = sort_json_files(video_url)
     logger.debug(bla)
     crap = '<html><head></head><body><h3>' + video_dir + '</h3>'
-    for i in bla:
+    for i in bla[int(page):int(page) + page_offset]:   
         tmp_date = i['mtime_dt'] - timedelta(hours=int(os.environ['TIME_OFFSET']))
         crap += '<h3>' + tmp_date.strftime('%b %d, %Y - %H:%M:%S') + ' - ' + str(humanfriendly.format_size(i['size'])) + '</h3>'
-        crap += '<video width="320" height="240" controls preload="none"> <source src="' + video_url + i['name'] + '" type="video/mp4"></video><br>'
+        crap += '<video width="320" height="240" controls > <source src="' + video_url + i['name'] + '" type="video/mp4"></video><br>'
+        #crap += '<video width="320" height="240" controls preload="none"> <source src="' + video_url + i['name'] + '" type="video/mp4"></video><br>'
         crap += "<hr>"
     return crap
     
