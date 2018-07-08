@@ -26,7 +26,7 @@ services:
     volumes:
       - /opt/recordings/drive_way:/recordings
     entrypoint: |
-        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.10:554/s0 -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/driveway -vcodec copy -acodec copy  -map 0 -segment_time 900 -f segment -strftime 1  /recordings/drive_way_%Y%m%d_%H-%M-%S.mp4
+        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.10:554/s0 -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/driveway -vcodec copy -acodec copy  -map 0 -segment_time 900 -f segment -strftime 1 -reset_timestamps 1 /recordings/drive_way_%Y%m%d_%H-%M-%S.mp4
     restart: unless-stopped
     depends_on:
       - nginx
@@ -36,7 +36,7 @@ services:
     volumes:
       - /opt/recordings/frontyard:/recordings
     entrypoint: |
-        ffmpeg -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.16/stream1 -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/frontyard  -vcodec copy  -map 0 -segment_time 900 -f segment -strftime 1  /recordings/front_yard_%Y%m%d_%H-%M-%S.mp4
+        ffmpeg -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.16/stream1 -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/frontyard  -vcodec copy  -map 0 -segment_time 900 -f segment -strftime 1 -reset_timestamps 1 /recordings/front_yard_%Y%m%d_%H-%M-%S.mp4
     restart: unless-stopped
     depends_on:
       - nginx
@@ -46,7 +46,7 @@ services:
     volumes:
       - /opt/recordings/backyard_porch:/recordings
     entrypoint: |
-        ffmpeg -analyzeduration 1000000 -probesize 1000000 -i rtsp://admin:yourmom%21@192.168.1.15:554/videoMain -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/backyard_porch  -vcodec copy  -map 0 -segment_time 900 -f segment -strftime 1  /recordings/backyard_porch_%Y%m%d_%H-%M-%S.mp4
+        ffmpeg -analyzeduration 1000000 -probesize 1000000 -i rtsp://admin:yourmom%21@192.168.1.15:554/videoMain -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/backyard_porch  -vcodec copy  -map 0 -segment_time 900 -f segment -strftime 1 -reset_timestamps 1  /recordings/backyard_porch_%Y%m%d_%H-%M-%S.mp4
     restart: unless-stopped
     depends_on:
       - nginx
@@ -56,7 +56,7 @@ services:
     volumes:
       - /opt/recordings/backyard_fence:/recordings
     entrypoint: |
-        ffmpeg -analyzeduration 1000000 -probesize 1000000 -i rtsp://admin:yourmom%21@192.168.1.14:554/videoMain -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/backyard_fence  -vcodec copy  -map 0 -segment_time 900 -f segment -strftime 1  /recordings/backyard_fence_%Y%m%d_%H-%M-%S.mp4
+        ffmpeg -analyzeduration 1000000 -probesize 1000000 -i rtsp://admin:yourmom%21@192.168.1.14:554/videoMain -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/backyard_fence  -vcodec copy  -map 0 -segment_time 900 -f segment -strftime 1  -reset_timestamps 1 /recordings/backyard_fence_%Y%m%d_%H-%M-%S.mp4
     restart: unless-stopped
     depends_on:
       - nginx
@@ -66,7 +66,7 @@ services:
     volumes:
       - /opt/recordings/living_room:/recordings
     entrypoint: |
-        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.12:554/live/av0?user=admin&passwd=pylecam -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/living_room  -vcodec copy  -map 0 -segment_time 900 -f segment -strftime 1  /recordings/living_room_%Y%m%d_%H-%M-%S.mp4
+        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.12:554/live/av0?user=admin&passwd=pylecam -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/living_room  -vcodec copy  -map 0 -segment_time 900 -f segment -strftime 1  -reset_timestamps 1 /recordings/living_room_%Y%m%d_%H-%M-%S.mp4
     restart: unless-stopped
     depends_on:
       - nginx
@@ -76,7 +76,7 @@ services:
     volumes:
       - /opt/recordings/dining_room:/recordings
     entrypoint: |
-        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.13:554/live/av0?user=admin&passwd=pylecam -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/dining_room  -vcodec copy  -map 0 -segment_time 900 -f segment -strftime 1  /recordings/dining_room_%Y%m%d_%H-%M-%S.mp4
+        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.13:554/live/av0?user=admin&passwd=pylecam -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/dining_room  -vcodec copy  -map 0 -segment_time 900 -f segment -strftime 1  -reset_timestamps 1 /recordings/dining_room_%Y%m%d_%H-%M-%S.mp4
     restart: unless-stopped
     depends_on:
       - nginx
@@ -86,7 +86,7 @@ services:
     volumes:
       - /opt/recordings/kitchen:/recordings
     entrypoint: |
-        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.11:554/live/av0?user=admin&passwd=pylecam -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/kitchen  -vcodec copy  -map 0 -segment_time 900 -f segment -strftime 1  /recordings/kitchen_%Y%m%d_%H-%M-%S.mp4
+        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.11:554/live/av0?user=admin&passwd=pylecam -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/kitchen  -vcodec copy  -map 0 -segment_time 900 -f segment -strftime 1  -reset_timestamps 1 /recordings/kitchen_%Y%m%d_%H-%M-%S.mp4
     restart: unless-stopped
     depends_on:
       - nginx
@@ -96,22 +96,22 @@ services:
     volumes:
       - /opt/recordings/garage:/recordings
     entrypoint: |
-        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://admin:yourmom%21@192.168.1.17:554/videoMain -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/garage  -vcodec copy  -map 0 -segment_time 900 -f segment -strftime 1  /recordings/garage_%Y%m%d_%H-%M-%S.mp4
+        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://admin:yourmom%21@192.168.1.17:554/videoMain -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/garage  -vcodec copy  -map 0 -segment_time 900 -f segment -strftime 1  -reset_timestamps 1 /recordings/garage_%Y%m%d_%H-%M-%S.mp4
     restart: unless-stopped
     depends_on:
       - nginx
 
-#  motion:
-#    build: motion_conf/
-#    volumes: 
-#      - /opt/recordings:/recordings
-#      - ./motion_conf/motion.conf:/etc/motion/motion.conf
-#      - ./motion_conf/cam_conf:/etc/motion/conf.d
-#    environment:
-#      - SET_CONTAINER_TIMEZONE=true
-#      - CONTAINER_TIMEZONE=America/Chicago
-#      - TZ=America/Chicago
-#    restart: unless-stopped
+  motion:
+    build: motion_conf/
+    volumes: 
+      - /opt/recordings:/recordings
+      - ./motion_conf/motion.conf:/etc/motion/motion.conf
+      - ./motion_conf/cam_conf:/etc/motion/conf.d
+    environment:
+      - SET_CONTAINER_TIMEZONE=true
+      - CONTAINER_TIMEZONE=America/Chicago
+      - TZ=America/Chicago
+    restart: unless-stopped
 
   cctv:
     build: horrible_cctv/

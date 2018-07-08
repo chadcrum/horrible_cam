@@ -42,7 +42,7 @@ def list_videos(video_dir, page=0):
     crap = '<html><head></head><body><h3>' + video_dir + '</h3>'
     for i in bla[int(page):int(page) + page_offset]:   
         tmp_date = i['mtime_dt'] - timedelta(hours=int(os.environ['TIME_OFFSET']))
-        crap += '<h3>' + tmp_date.strftime('%b %d, %Y - %H:%M:%S') + ' - ' + str(humanfriendly.format_size(i['size'])) + '</h3>'
+        crap += '<h3>' + i['name'] + ' - ' + tmp_date.strftime('%b %d, %Y - %H:%M:%S') + ' - ' + str(humanfriendly.format_size(i['size'])) + '</h3>'
         crap += '<video width="320" height="240" controls > <source src="' + video_url + i['name'] + '" type="video/mp4"></video><br>'
         #crap += '<video width="320" height="240" controls preload="none"> <source src="' + video_url + i['name'] + '" type="video/mp4"></video><br>'
         crap += "<hr>"
