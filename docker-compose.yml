@@ -3,6 +3,18 @@
 
 version: '3'
 services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./html:/var/www
+    environment:
+      - SET_CONTAINER_TIMEZONE=true
+      - CONTAINER_TIMEZONE=US/Chicago
+      - TZ=America/Chicago
+    ports:
+      - 80:80
+    restart: unless-stopped
+
   drive_way:
     image: kerberos/kerberos
     volumes:
