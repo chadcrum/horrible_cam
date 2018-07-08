@@ -1,94 +1,76 @@
+# chown -R 33:33 config/
+# chown -R 33:33 capture/
+
 version: '3'
 services:
-  nginx:
-    image: tiangolo/nginx-rtmp
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/server.key:/etc/nginx/server.key
-      - ./nginx/server.crt:/etc/nginx/server.crt
-      - ./nginx/.htpasswd:/etc/nginx/.htpasswd
-      - ./html:/var/www
-      # NGINX stores the tmp video files here
-      - /opt/videos:/videos
-      - /opt/recordings:/recordings
-    environment:
-      - SET_CONTAINER_TIMEZONE=true
-      - CONTAINER_TIMEZONE=US/Chicago
-      - TZ=America/Chicago
-    ports:
-      - 80:80
-      - 1935:1935
-    restart: unless-stopped
-
-  # Direct Camera Feeds
   drive_way:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: |
-        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.10:554/s0 -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/driveway
-    restart: unless-stopped
-
-  frontyard:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: |
-        ffmpeg -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.16/stream1 -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/frontyard
-    restart: unless-stopped
-
-  backyard_porch:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: |
-        ffmpeg -analyzeduration 1000000 -probesize 1000000 -i rtsp://admin:yourmom%21@192.168.1.15:554/videoMain -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/backyard_porch
-    restart: unless-stopped
-
-  backyard_fence:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: |
-        ffmpeg -analyzeduration 1000000 -probesize 1000000 -i rtsp://admin:yourmom%21@192.168.1.14:554/videoMain -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/backyard_fence
-    restart: unless-stopped
-
-  living_room:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: |
-        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.12:554/live/av0?user=admin&passwd=pylecam -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/living_room
-    restart: unless-stopped
-
-  dining_room:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: |
-        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.13:554/live/av0?user=admin&passwd=pylecam -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/dining_room
-    restart: unless-stopped
-
-  kitchen:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: |
-        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.11:554/live/av0?user=admin&passwd=pylecam -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/kitchen
-    restart: unless-stopped
-
-  garage:
-    image: jrottenberg/ffmpeg:latest
-    entrypoint: |
-        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://admin:yourmom%21@192.168.1.17:554/videoMain -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/garage
-    restart: unless-stopped
-
-  motion:
-    build: motion_conf/
-    volumes: 
-      - /opt/recordings:/recordings
-      - ./motion_conf/motion.conf:/etc/motion/motion.conf
-      - ./motion_conf/cam_conf:/etc/motion/conf.d
-    environment:
-      - SET_CONTAINER_TIMEZONE=true
-      - CONTAINER_TIMEZONE=America/Chicago
-      - TZ=America/Chicago
-    restart: unless-stopped
-
-  cctv:
-    build: horrible_cctv/
+    image: kerberos/kerberos
     volumes:
-      - ./horrible_cctv:/app
-      - /opt/recordings:/recordings
+      - ./capture/drive_way:/etc/opt/kerberosio/capture
+      - ./config/drive_way:/etc/opt/kerberosio/config
     ports:
       - 81:80
-    environment:
-      - BASE_URL=http://192.168.1.69/recordings/
-      - TIME_OFFSET=5
-    restart: unless-stopped
+      - 8901:8889
+
+  frontyard:
+    image: kerberos/kerberos
+    volumes:
+      - ./capture/frontyard:/etc/opt/kerberosio/capture
+      - ./config/frontyard:/etc/opt/kerberosio/config
+    ports:
+      - 82:80
+      - 8902:8889
+
+  backyard_porch:
+    image: kerberos/kerberos
+    volumes:
+      - ./capture/backyard_porch:/etc/opt/kerberosio/capture
+      - ./config/backyard_porch:/etc/opt/kerberosio/config
+    ports:
+      - 83:80
+      - 8903:8889
+
+  backyard_fence:
+    image: kerberos/kerberos
+    volumes:
+      - ./capture/backyard_fence:/etc/opt/kerberosio/capture
+      - ./config/backyard_fence:/etc/opt/kerberosio/config
+    ports:
+      - 84:80
+      - 8904:8889
+
+  kitchen:
+    image: kerberos/kerberos
+    volumes:
+      - ./capture/kitchen:/etc/opt/kerberosio/capture
+      - ./config/kitchen:/etc/opt/kerberosio/config
+    ports:
+      - 85:80
+      - 8905:8889
+
+  dining_room:
+    image: kerberos/kerberos
+    volumes:
+      - ./capture/dining_room:/etc/opt/kerberosio/capture
+      - ./config/dining_room:/etc/opt/kerberosio/config
+    ports:
+      - 86:80
+      - 8906:8889
+
+  living_room:
+    image: kerberos/kerberos
+    volumes:
+      - ./capture/living_room:/etc/opt/kerberosio/capture
+      - ./config/living_room:/etc/opt/kerberosio/config
+    ports:
+      - 88:80
+      - 8908:8889
+
+  garage:
+    image: kerberos/kerberos
+    volumes:
+      - ./capture/garage:/etc/opt/kerberosio/capture
+      - ./config/garage:/etc/opt/kerberosio/config
+    ports:
+      - 89:80
+      - 8909:8889
