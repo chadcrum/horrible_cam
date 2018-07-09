@@ -3,7 +3,7 @@
 
 	<DifferentialCollins>
 		<erode type="number">5</erode>
-    	<threshold type="number">15</threshold>
+    	<threshold type="number">16</threshold>
     </DifferentialCollins>
     
 	<BackgroundSubtraction>

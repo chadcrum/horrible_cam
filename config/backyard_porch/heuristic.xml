@@ -3,7 +3,7 @@
 
 	<Sequence>
 	    <minimumChanges type="number">20</minimumChanges>
-	    <minimumDuration type="number">2</minimumDuration>
+	    <minimumDuration type="number">4</minimumDuration>
         <noMotionDelayTime type="number">1000</noMotionDelayTime>
 	</Sequence>
     
