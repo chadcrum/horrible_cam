@@ -1,23 +1,16 @@
 version: '3'
 services:
   nginx:
-    image: tiangolo/nginx-rtmp
+    image: nginx:latest
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/server.key:/etc/nginx/server.key
-      - ./nginx/server.crt:/etc/nginx/server.crt
-      - ./nginx/.htpasswd:/etc/nginx/.htpasswd
-      - ./html:/var/www
-      # NGINX stores the tmp video files here
-      - /opt/videos:/videos
-      - /opt/recordings:/recordings
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /opt/recordings:/files
     environment:
       - SET_CONTAINER_TIMEZONE=true
       - CONTAINER_TIMEZONE=US/Chicago
       - TZ=America/Chicago
     ports:
-      - 80:80
-      - 1935:1935
+      - 7000:80
     restart: unless-stopped
 
   motion:
@@ -48,8 +41,8 @@ services:
       - ./horrible_cctv:/app
       - /opt/recordings:/recordings
     ports:
-      - 81:80
+      - 80:80
     environment:
-      - BASE_URL=http://192.168.1.69/recordings/
+      - BASE_URL=http://192.168.1.69:7000/
       - TIME_OFFSET=5
     restart: unless-stopped
