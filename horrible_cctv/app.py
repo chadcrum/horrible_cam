@@ -10,6 +10,7 @@ import pprint
 import logging
 import subprocess
 import os
+import nginxjson as NGINX
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -27,8 +28,11 @@ app = Flask(__name__)
 def index():
     base_url = os.environ['BASE_URL']
     crap = '<html><head></head><body><h2>Recordings</h2>' 
+    crap += '<div style="font-size: 35;">'
+    crap += "<a href='http://192.168.1.69:8080'><b>Live Video!</b></a><br><br>"
     for i in get_file_list(base_url):
         crap += '<a href="/videos/' + i["name"] + '">' + i["name"] + '</a></br>'
+    crap += '</div>'
     return crap
 
 @app.route("/videos/<video_dir>", methods=['GET'])
@@ -38,15 +42,29 @@ def list_videos(video_dir, page=0):
     time_offset = os.environ['TIME_OFFSET']
     video_url = os.environ['BASE_URL'] + video_dir + '/'
     bla = sort_json_files(video_url)
-    logger.debug(bla)
+    #logger.debug(bla)
     crap = '<html><head></head><body><h3>' + video_dir + '</h3>'
+    crap += show_arrows(page, video_dir, page_offset)
     for i in bla[int(page):int(page) + page_offset]:   
         tmp_date = i['mtime_dt'] - timedelta(hours=int(os.environ['TIME_OFFSET']))
         crap += '<h3>' + tmp_date.strftime('%b %d, %Y - %H:%M:%S') + ' - ' + str(humanfriendly.format_size(i['size'])) + '</h3>'
         crap += '<video width="320" height="240" controls > <source src="' + video_url + i['name'] + '" type="video/mp4"></video><br>'
         #crap += '<video width="320" height="240" controls preload="none"> <source src="' + video_url + i['name'] + '" type="video/mp4"></video><br>'
         crap += "<hr>"
+    crap += show_arrows(page, video_dir, page_offset)
     return crap
+
+def show_arrows(page, video_dir, page_offset):
+    output = '<div style="font-size: 25px;">'
+    left_page = int(page) + page_offset
+    output += '<a href="/videos/' + video_dir + '/' + str(left_page) + '"><</a> | '
+    if int(page) < 1:
+        output += '>'
+    else:
+        right_page = int(page) - page_offset
+        output += '<a href="/videos/' + video_dir + '/' + str(right_page) + '">></a>'
+    output += '</div>'
+    return output
     
 
 def get_file_list(url):
