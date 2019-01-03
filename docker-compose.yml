@@ -10,7 +10,8 @@ services:
       - CONTAINER_TIMEZONE=US/Chicago
       - TZ=America/Chicago
     ports:
-      - 49494:80
+      - 7000:80
+      #- 49494:80
     restart: unless-stopped
 
   motion:
