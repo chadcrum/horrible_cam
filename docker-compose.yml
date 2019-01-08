@@ -25,35 +25,35 @@ services:
   # Direct Camera Feeds
   drive_way:
     image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -i rtsp://192.168.1.10:554/s0 -vcodec copy -acodec copy http://camtop:8090/drive_way.ffm
+    entrypoint: ffmpeg -i rtsp://192.168.1.10:554/s0 -vcodec copy -acodec copy http://192.168.1.69:8090/drive_way.ffm
     restart: always
   frontyard:
     image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.16/stream1" -vcodec copy -acodec copy http://camtop:8090/frontyard.ffm
+    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.16/stream1" -vcodec copy -acodec copy http://192.168.1.69:8090/frontyard.ffm
     restart: always
   backyard_porch:
     image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -rtsp_transport tcp -i rtsp://admin:yourmom%21@192.168.1.15:554/videoMain  -vcodec copy -acodec copy  http://camtop:8090/backyard_porch.ffm
+    entrypoint: ffmpeg -rtsp_transport tcp -i rtsp://admin:yourmom%21@192.168.1.15:554/videoMain  -vcodec copy -acodec copy  http://192.168.1.69:8090/backyard_porch.ffm
     restart: always
   backyard_fence:
     image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -rtsp_transport tcp -i rtsp://admin:yourmom%21@192.168.1.14:554/videoMain  -vcodec copy -acodec copy http://camtop:8090/backyard_fence.ffm
+    entrypoint: ffmpeg -rtsp_transport tcp -i rtsp://admin:yourmom%21@192.168.1.14:554/videoMain  -vcodec copy -acodec copy http://192.168.1.69:8090/backyard_fence.ffm
     restart: always
   living_room:
     image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.12:554/live/av0?user=admin&passwd=pylecam"  -vcodec copy -acodec copy http://camtop:8090/living_room.ffm
+    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.12:554/live/av0?user=admin&passwd=pylecam"  -vcodec copy -acodec copy http://192.168.1.69:8090/living_room.ffm
     restart: always
   dining_room:
     image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.13:554/live/av0?user=admin&passwd=pylecam"  -vcodec copy -acodec copy http://camtop:8090/dining_room.ffm
+    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.13:554/live/av0?user=admin&passwd=pylecam"  -vcodec copy -acodec copy http://192.168.1.69:8090/dining_room.ffm
     restart: always
   kitchen:
     image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.11:554/live/av0?user=admin&passwd=pylecam" -vcodec copy -acodec copy http://camtop:8090/kitchen.ffm
+    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://192.168.1.11:554/live/av1?user=admin&passwd=pylecam" -vcodec copy -acodec copy http://192.168.1.69:8090/kitchen.ffm
     restart: always
   garage:
     image: jrottenberg/ffmpeg:latest
-    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://admin:yourmom%21@192.168.1.17:554/videoMain" -vcodec copy -acodec copy http://camtop:8090/garage.ffm
+    entrypoint: ffmpeg -rtsp_transport tcp -i "rtsp://admin:yourmom%21@192.168.1.17:554/videoMain" -vcodec copy -acodec copy http://192.168.1.69:8090/garage.ffm
     restart: always
 
 
