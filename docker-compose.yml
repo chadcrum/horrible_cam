@@ -1,8 +1,7 @@
 version: '3'
 services:
   nginx:
-    image: tiangolo/nginx-rtmp
-    #build: ./nginx-rtmp-docker
+    image: nginx:latest
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/server.key:/etc/nginx/server.key
@@ -24,7 +23,7 @@ services:
   living_room:
     image: jrottenberg/ffmpeg:latest
     volumes:
-      - /opt/videos/dash:/videos/dash
+      - ./html/dash:/videos/dash
     entrypoint: |
         ffmpeg -i "rtsp://192.168.1.11:554/live/av1?user=admin&passwd=pylecam" -an -c:v copy -b:v 2000k -f dash -window_size 4 -extra_window_size 0 -min_seg_duration 2000000 -remove_at_exit 1 /videos/dash/living_room.mpd
     restart: unless-stopped
