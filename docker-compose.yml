@@ -61,7 +61,7 @@ services:
   kitchen:
     image: jrottenberg/ffmpeg:latest
     entrypoint: |
-        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.11:554/live/av0?user=admin&passwd=pylecam -vcodec copy -acodec copy -f flv rtmp://192.168.1.69/dash/kitchen
+        ffmpeg  -analyzeduration 1000000 -probesize 1000000 -i rtsp://192.168.1.11:554/live/av0?user=admin&passwd=pylecam -vcodec copy -acodec libvorbis -f flv rtmp://192.168.1.69/dash/kitchen
     restart: unless-stopped
 
   garage:
